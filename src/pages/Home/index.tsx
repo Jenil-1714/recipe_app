@@ -15,10 +15,12 @@ import { IHomeProps } from "./home";
 import AddModal from "./AddModal";
 
 const Home = () => {
-  const [movieList, setMovieList] = React.useState([] as IHomeProps.AddRecipeData[]);
-  const { searchedValue, isshowsidebar } =
+  const [recipeList, setRecipeList] = React.useState([] as IHomeProps.AddRecipeData[]);
+  const {  isshowsidebar } =
     React.useContext(searchedValueContext);
-  const [showSelectedMovieDetails, setShowSelectedMovieDetails] =
+  const [searchedValue, setSearchedValue] = React.useState<string>("");
+
+  const [showSelectedRecipeDetails, setShowSelectedRecipeDetails] =
     React.useState<number>(0);
   const [isModalOpen, setIsModalOpen] = React.useState("");
   const [selectedRecipe, setSelectedRecipe] = React.useState({} as IHomeProps.AddRecipeData);
@@ -52,8 +54,8 @@ const Home = () => {
   };
 
   const onDeleteSubmitHandler = (deletedRecipe: IHomeProps.AddRecipeData) => {
-    const tempData = movieList.filter((data) => data?.id !== deletedRecipe?.id);
-    setMovieList(tempData);
+    const tempData = recipeList.filter((data) => data?.id !== deletedRecipe?.id);
+    setRecipeList(tempData);
     setSelectedRecipe({} as IHomeProps.AddRecipeData);
     setIsModalOpen("");
   }
@@ -64,52 +66,52 @@ const Home = () => {
   };
 
   const onEditSubmitHandler = (editedRecipe: IHomeProps.AddRecipeData) => {
-    const findIndex = movieList?.findIndex((data) => data?.id === editedRecipe?.id)
-    movieList[findIndex] = editedRecipe;
+    const findIndex = recipeList?.findIndex((data) => data?.id === editedRecipe?.id)
+    recipeList[findIndex] = editedRecipe;
     setSelectedRecipe({} as IHomeProps.AddRecipeData);
     setIsModalOpen("");
   }
 
   const onAddSubmitHandler = (newRecipe: IHomeProps.AddRecipeData) => {
-    setMovieList([...movieList, newRecipe])
+    setRecipeList([...recipeList, newRecipe])
     setIsModalOpen("");
   }
 
   React.useEffect(() => {
     let tempData = [...recipiesData?.recipe];
     if (searchedValue !== "") {
-      tempData = tempData?.filter((movie) =>
-        movie?.name?.toLowerCase().includes(searchedValue?.toLowerCase())
+      tempData = tempData?.filter((recipe) =>
+        recipe?.name?.toLowerCase().includes(searchedValue?.toLowerCase())
       );
     }
-    setMovieList(tempData);
+    setRecipeList(tempData);
   }, [searchedValue]);
 
   return (
-    <HomeMainContainer length={movieList?.length}>
+    <HomeMainContainer length={recipeList?.length}>
       <HeaderMainContainer>
-        <SearchBar />
+        <SearchBar searchedValue={searchedValue} setSearchedValue={setSearchedValue} />
         <Button variant="outlined" endIcon={<Add />} onClick={() => setIsModalOpen("add")}>
           Add
         </Button>
       </HeaderMainContainer>
-      {movieList?.length === 0 ? (
+      {recipeList?.length === 0 ? (
         <NoResultTextWrappr>
           No results found for your search.
         </NoResultTextWrappr>
       ) : (
         <>
-          {[...Array(Math.ceil(movieList?.length / NO_OF_COLUMNS))].map(
+          {[...Array(Math.ceil(recipeList?.length / NO_OF_COLUMNS))].map(
             (_, i) => (
               <>
-                {movieList
+                {recipeList
                   ?.slice(i * NO_OF_COLUMNS, (i + 1) * NO_OF_COLUMNS)
-                  ?.map((movieData: any, indexTwo) => {
+                  ?.map((recipeData: IHomeProps.AddRecipeData, indexTwo) => {
                     return (
-                      movieData?.id === showSelectedMovieDetails && (
+                      recipeData?.id === showSelectedRecipeDetails && (
                         <RecipeDetailsCard
                           key={indexTwo}
-                          movieData={movieData}
+                          recipeData={recipeData}
                           imageWidth="334px"
                           imageHeight="389px"
                         />
@@ -118,13 +120,13 @@ const Home = () => {
                   })}
                 <Row
                   length={
-                    movieList?.slice(i * NO_OF_COLUMNS, (i + 1) * NO_OF_COLUMNS)
+                    recipeList?.slice(i * NO_OF_COLUMNS, (i + 1) * NO_OF_COLUMNS)
                       ?.length
                   }
                   NO_OF_COLUMNS={NO_OF_COLUMNS}
                   CARD_GAP_VALUE={cardGapValueForNotFullFilledRow}
                 >
-                  {movieList
+                  {recipeList
                     ?.slice(i * NO_OF_COLUMNS, (i + 1) * NO_OF_COLUMNS)
                     ?.map((data, index) => (
                       <RecipeCard
@@ -136,7 +138,7 @@ const Home = () => {
                         height="278px"
                         imgHeight="190px"
                         imgWidth="157px"
-                        onClickHandler={(id) => setShowSelectedMovieDetails(id === showSelectedMovieDetails ? "" : id)}
+                        onClickHandler={(id) => setShowSelectedRecipeDetails(id === showSelectedRecipeDetails ? "" : id)}
                         onEditHandler={onEditHandler}
                         onDeleteHandler={onDeleteHandler}
                       />

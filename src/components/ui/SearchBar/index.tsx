@@ -1,18 +1,21 @@
 //#Global Imports
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 //#Local Imports
 import { CloseIcon, SearchIcon } from "../../../assets/icons";
 import { theme } from "../../../Theme/theme";
 import { CloseContainer, Input, MainSearchbar, SearchIconContainer } from "./SearchbarStyle";
-import { searchedValueContext } from "../../layout";
 
-const SearchBar = () => {
+interface ISearchBarProps{
+  searchedValue:string;
+  setSearchedValue:Dispatch<SetStateAction<string>>
+}
+
+const SearchBar = ({setSearchedValue,searchedValue}:ISearchBarProps) => {
   const [isSearchBarOpen, setIsSearchBarOpen] = React.useState(false);
   const muiTheme = useTheme();
   const isMobileDevice = useMediaQuery(muiTheme.breakpoints.down("sm"));
-  const { searchedValue, setSearchedValue } = React.useContext(searchedValueContext);
 
   return (
     <MainSearchbar isSearchBarOpen={isSearchBarOpen} isMobileDevice={isMobileDevice}>

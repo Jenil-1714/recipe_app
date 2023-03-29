@@ -6,32 +6,28 @@ import { IRecipeCardDetailsProps } from "./RecipeDetailsCard";
 import {
   CardDetailsContainer,
   DetailsWrapper,
-  // ImageContainer,
   RecipeDescription,
   OtherDetailsWrapper,
   Title,
 } from "./RecipeDetailsCardStyle";
 
 const RecipeDetailsCard: React.FC<IRecipeCardDetailsProps.IProps> = ({
-  movieData,
-  // imageWidth,
-  // imageHeight,
+  recipeData,
+ 
 }) => {
   return (
     <CardDetailsContainer>
-      {/* <ImageContainer width={imageWidth} height={imageHeight}>
-        <img src={movieData?.imgSrc} />
-      </ImageContainer> */}
+     
       <DetailsWrapper>
-        <Title>{movieData?.name}</Title>
+        <Title>{recipeData?.name}</Title>
 
         <Title>Ingredients:</Title>
-        {movieData?.ingredients.map((ingredients:string) => (
+        {recipeData?.ingredients.map((ingredients:string) => (
           <OtherDetailsWrapper>{ingredients}</OtherDetailsWrapper>
         ))}
 
         <Title>Instructions:</Title>
-        {movieData?.instructions?.map((instructions:string) => (
+        {recipeData?.instructions?.map((instructions:string) => (
           <RecipeDescription>{instructions}</RecipeDescription>
         ))}
       </DetailsWrapper>

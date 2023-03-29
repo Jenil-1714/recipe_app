@@ -9,13 +9,12 @@ import IProtectedPageLayout from "./ProtectedPageLayout";
 import { LayoutMainContainer, MainSection } from "./ProtectedPageLayoutStyle";
 
 export const searchedValueContext = createContext(
-  {} as IProtectedPageLayout.ISearchContextProps
+  {} as IProtectedPageLayout.ISidebarContextProps
 );
 
 const ProtectedPageLayout = () => {
   const [isshowsidebar, setIsShowSidebar] = React.useState<boolean>(false);
   const [isHideOnMobile, setisHideOnMobile] = React.useState<boolean>(false);
-  const [searchedValue, setSearchedValue] = React.useState<string>("");
   const theme = useTheme();
   const isMobileDevice = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -29,7 +28,7 @@ const ProtectedPageLayout = () => {
 
   return (
     <searchedValueContext.Provider
-      value={{ searchedValue, setSearchedValue, isshowsidebar }}
+      value={{ isshowsidebar }}
     >
       <LayoutMainContainer>
         <Sidebar

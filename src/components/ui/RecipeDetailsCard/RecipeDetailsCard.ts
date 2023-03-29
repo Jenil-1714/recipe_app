@@ -1,14 +1,8 @@
-export declare namespace IRecipeCardDetailsProps {
-  export type movieData = {
-    id: number;
-    name: string;
-    ingredients: Array<string>;
-    instructions: Array<string>;
-    imgSrc: string;
-  };
+import { IHomeProps } from "../../../pages/Home/home";
 
-  export interface IProps {
-    movieData: movieData;
+export declare namespace IRecipeCardDetailsProps {
+   export interface IProps {
+    recipeData: IHomeProps.AddRecipeData;
     imageWidth: string;
     imageHeight: string;
   }

@@ -1,8 +1,6 @@
 import React from "react";
 declare namespace IProtectedPageLayout {
-  export interface ISearchContextProps {
-    searchedValue: string;
-    setSearchedValue: React.Dispatch<React.SetStateAction<string>>;
+  export interface ISidebarContextProps {
     isshowsidebar: boolean;
   }
 }
